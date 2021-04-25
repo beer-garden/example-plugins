@@ -1,52 +1,30 @@
-from zipfile import ZipFile
-
-from brewtils import parameter, Plugin
+from brewtils import Plugin, SystemClient, command, parameter, system
 
 __version__ = "1.0.0.dev0"
 
 
+@system
 class DeployClient(object):
     """Plugin that deploys other plugins"""
 
-    @parameter(
-        key="my_file",
-        type="Base64",
-        description="The zipped plugin to deploy",
-        optional=False,
-    )
-    @parameter(
-        key="output_path",
-        type="String",
-        description="Where to extract the input file to. Default is the plugin directory.",
-        optional=False,
-        default="../"
-    )
-    def deploy(self, my_file, output_path):
-        """Deploys the given file to the given directory."""
-        z = ZipFile(my_file)
-        z.extractall(output_path)
-        return "Done!"
+    @command
+    def bytes_from_file(self):
+        with open("./binary", "rb") as f:
+            data = f.read()
 
-    @parameter(
-        key="input_path",
-        type="String",
-        description="The input file path. Default uses FileTrigger parameter injection.",
-        optional=False,
-        default="{event/src_path}"
-    )
-    @parameter(
-        key="output_path",
-        type="String",
-        description="Where to extract the input file to. Default is the plugin directory.",
-        optional=False,
-        default="../"
-    )
-    def monitor(self, input_path, output_path):
-        """ Deploys the file found at the given path to the given directory.
-            For best results, schedule a job using the 'file' trigger with this as its request."""
-        z = ZipFile(input_path)
-        z.extractall(output_path)
-        return "Done!"
+        return SystemClient().bytes_command(the_bytes=data).output
+
+    @command
+    def bytes_literal(self):
+        return SystemClient().bytes_command(the_bytes=b'im a byte').output
+
+    @parameter(key="the_bytes", type="Bytes")
+    def bytes_command(self, the_bytes):
+        return the_bytes
+
+    @command
+    def echo_invoker(self):
+        return SystemClient().echo(my_file="./text").output
 
     @parameter(
         key="my_file",
