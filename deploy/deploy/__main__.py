@@ -3,6 +3,12 @@ from brewtils import Plugin, SystemClient, command, parameter, system
 __version__ = "1.0.0.dev0"
 
 
+@parameter(key="foo", type="String", optional=False)
+@parameter(key="bar", type="Bytes", optional=False)
+class Model(object):
+    pass
+
+
 @system
 class DeployClient(object):
     """Plugin that deploys other plugins"""
@@ -21,6 +27,16 @@ class DeployClient(object):
     @parameter(key="the_bytes", type="Bytes")
     def bytes_command(self, the_bytes):
         return the_bytes
+
+    @command
+    def bytes_model_literal(self):
+        return SystemClient().bytes_model_command(
+            bytes_model={"foo": "hi", "bar": b'im a byte'}
+        ).output
+
+    @parameter(key="bytes_model", model=Model)
+    def bytes_model_command(self, bytes_model):
+        return bytes_model
 
     @command
     def echo_invoker(self):
