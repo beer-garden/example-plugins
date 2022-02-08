@@ -203,7 +203,6 @@ class DynamicClient(object):
                 "command": "get_choices",
                 "system": "dynamic",
                 "version": "1.0.0.dev",
-                "instance_name": "default",
             },
         },
     )
