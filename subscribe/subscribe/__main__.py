@@ -10,11 +10,11 @@ class SubscribeClient:
     def subscribe_multiple_topics(self, value:str) -> str:
         return value
 
-    @subscribe(topics="topic1")
+    @subscribe(topic="topic1")
     def subscrib_one_topics(self, value:str) -> str:
         return value
 
-    @subscribe(topics="topic.*")
+    @subscribe(topic="topic.*")
     def subscribe_wildcard_topics(self, value:str) -> str:
         return value
 
