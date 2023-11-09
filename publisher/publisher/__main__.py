@@ -10,9 +10,9 @@ class Publisher:
         self.publishClient = PublishClient()
 
     @command()
-    def publish_topics(self, payload:dict, topic:str = "topic1") -> dict:
-        self.publishClient.publish(_topic=topic, payload = payload)
-        return dict
+    def publish_topics(self, value:str = "value", topic:str = "topic1") -> str:
+        self.publishClient.publish(_topic=topic, value = value)
+        return value
 
 def main():
     plugin = Plugin(
