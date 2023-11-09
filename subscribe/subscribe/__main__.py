@@ -7,16 +7,16 @@ __version__ = "3.0.0.dev0"
 class SubscribeClient:
 
     @subscribe(topics=["topic1","topic2"])
-    def subscribe_multiple_topics(self, payload:dict) -> dict:
-        return dict
+    def subscribe_multiple_topics(self, value:str) -> str:
+        return value
 
     @subscribe(topics="topic1")
-    def subscrib_one_topics(self, payload:dict) -> dict:
-        return dict
+    def subscrib_one_topics(self, value:str) -> str:
+        return value
 
     @subscribe(topics="topic.*")
-    def subscribe_wildcard_topics(self, payload:dict) -> dict:
-        return dict
+    def subscribe_wildcard_topics(self, value:str) -> str:
+        return value
 
 def main():
     plugin = Plugin(
