@@ -7,10 +7,11 @@ __version__ = "3.0.0.dev0"
 class Publisher:
 
     def __init__(self):
-        self.publishClient = publishClient
+        self.publishClient = publishClient()
 
     @command()
     def publish_topics(self, payload:dict, topic:str = "topic1") -> dict:
+        self.publishClient.publish(_topic=topic, payload = payload)
         return dict
 
 def main():
