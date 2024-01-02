@@ -17,7 +17,7 @@ class NestedCallClient:
 
     @command(description="Start Commands at Level Two")
     def level_2(self):
-        """Starts Commands at Level One"""
+        """Starts Commands at Level Two"""
 
         return self.nestedCallsClient.level_3().output
 
@@ -38,6 +38,37 @@ class NestedCallClient:
         """Starts Commands at Level Five"""
 
         return "Success"
+
+    @command(description="Start JSON Commands at Level One", output_type="JSON")
+	def level_1_json(self):
+        """Starts JSON Commands at Level One"""
+
+		return self.nestedCallsClient.level_2_json().output
+		
+	@command(description="Start JSON Commands at Level Two", output_type="JSON")
+	def level_2_json(self):
+        """Starts JSON Commands at Level Two"""
+
+		return self.nestedCallsClient.level_3_json().output
+		
+	@command(description="Start JSON Commands at Level Three", output_type="JSON")
+	def level_3_json(self):
+        """Starts JSON Commands at Level Three"""
+
+		return self.nestedCallsClient.level_4_json().output
+		
+	@command(description="Start JSON Commands at Level Four", output_type="JSON")
+	def level_4_json(self):
+        """Starts JSON Commands at Level Four"""
+
+		return self.nestedCallsClient.level_5_json().output
+		
+	@command(description="Start JSON Commands at Level Five", output_type="JSON")
+	def level_5_json(self):
+        """Starts JSON Commands at Level Five"""
+
+		return [1,2,3,4,5]
+		
 
 
 def main():
