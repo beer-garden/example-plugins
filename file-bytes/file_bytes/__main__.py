@@ -31,6 +31,14 @@ class FileBytesClient(object):
         """Returns the md5sum of a provided file"""
         return hashlib.md5(some_file).hexdigest()
 
+    @parameter(key="file_upload", type="Bytes", optional=True, nullable=True)
+    def echo_md5sum_optional(self, file_upload=None):
+        """Returns the md5sum of a provided file"""
+        if file_upload:
+            return hashlib.md5(file_upload).hexdigest()
+        else:
+            return "no file selected"
+
 
 def main():
     p = Plugin(name="file-bytes", version=__version__)
