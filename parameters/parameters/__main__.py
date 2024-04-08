@@ -11,8 +11,8 @@ class ParametersClient(object):
     """Client that shows different options to declaring parameters"""
 
     @command()
-    def string_default(self, value):
-        """String is the default type for any undeclared variables"""
+    def any_default(self, value):
+        """Any is the default type for any undeclared variables"""
         return value
 
     @parameter(key="value", type="String")
