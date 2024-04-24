@@ -3,11 +3,11 @@ from brewtils import command, system, Plugin, SystemClient
 __version__ = "3.0.0.dev0"
 
 
-class MaxConccurentClient(object):
+class MaxConcurrentClient(object):
     """Client that will break if max concurrency is not fixed"""
 
     def __init__(self):
-        self.system_client  = SystemClient(system_name="max_conccurent")
+        self.system_client  = SystemClient(system_name="max_concurrent")
 
     @command()
     def one_concurrent(self) -> bool:
@@ -57,11 +57,11 @@ class MaxConccurentClient(object):
 
 def main():
     plugin = Plugin(
-        name="max_conccurent",
+        name="max_concurrent",
         version=__version__,
         description="Client that will break if max concurrency is not fixed",
     )
-    plugin.client = MaxConccurentClient()
+    plugin.client = MaxConcurrentClient()
     plugin.run()
 
 
