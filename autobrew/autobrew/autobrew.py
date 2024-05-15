@@ -12,6 +12,10 @@ class AutoBrewClient(object):
         """Any is the default type for any undeclared variables"""
         return value
 
+    def any_kwargs(self, **kwargs):
+        """Supports any kwargs"""
+        return kwargs
+
     def string_type_hint(self, value: str):
         """Type Hint: String value"""
         return value
