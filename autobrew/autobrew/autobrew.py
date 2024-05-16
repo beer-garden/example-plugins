@@ -1,7 +1,9 @@
 import sys
 from datetime import datetime
-from typing import Literal
 
+if sys.version_info.major == 3 and sys.version_info.minor >= 8:
+    from typing import Literal
+    
 
 class AutoBrewClient(object):
     """Auto Brew Client that shows different options to declaring parameters"""
