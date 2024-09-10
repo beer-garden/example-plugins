@@ -181,7 +181,7 @@ class ParametersClient(object):
     @parameter(key="value", type="Base64")
     def base64_parameter(self, value):
         """Parameter: base64 value"""
-        return value
+        return value.read()
 
 
 def main():
