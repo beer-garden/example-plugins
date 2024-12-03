@@ -6,5 +6,6 @@ ENTRYPOINT ["python", "-m"]
 COPY . .
 
 # Install all the plugins
+RUN apk add --no-cache git
 RUN pip install brewtils
 RUN find . -maxdepth 1 -type d ! -name ".*" -not -name "autobrew" -not -name "echo-http-server" | xargs pip install --no-cache-dir
