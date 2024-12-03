@@ -7,4 +7,4 @@ COPY . .
 
 # Install all the plugins
 RUN pip install brewtils \
-  && find . -maxdepth 1 -type d ! -name ".*" -not -name "autobrew" | xargs pip install --no-cache-dir
+  && find . -maxdepth 1 -type d ! -name ".*" -not -name "autobrew" -not -name "echo-http-server" | xargs pip install --no-cache-dir
