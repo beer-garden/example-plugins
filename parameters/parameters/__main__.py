@@ -10,6 +10,26 @@ __version__ = "3.0.0.dev0"
 class ParametersClient(object):
     """Client that shows different options to declaring parameters"""
 
+    @parameter(key="base64", type="Base64", description="Value For base64",)
+    @parameter(key="bytes", type="Bytes", description="Value For bytes",)
+    @parameter(key="date_time", type="DateTime", description="Value For date_time",)
+    @parameter(key="date", type="Date", description="Value For date_time",)
+    @parameter(key="dict", type="Dictionary", description="Value For dict",)
+    @parameter(key="bool", type="Boolean", description="Value For bool",)
+    @parameter(key="float", type="Float", description="Value For float",)
+    @parameter(key="int", type="Integer", description="Value For int",)
+    @parameter(key="str", type="String", description="Value For str",)
+    @parameter(key="date_time_array", type="DateTime", multi=True, description="Value For date_time_array",)
+    @parameter(key="date_array", type="Date", multi=True, description="Value For date_array",)
+    @parameter(key="dict_array", type="Dictionary", multi=True, description="Value For dict_array",)
+    @parameter(key="bool_array", type="Boolean", multi=True, description="Value For bool_array",)
+    @parameter(key="float_array", type="Float", multi=True, description="Value For float_array",)
+    @parameter(key="int_array", type="Integer", multi=True, description="Value For int_array",)
+    @parameter(key="str_array", type="String", multi=True, description="Value For str_array",) 
+    def kitchen_sink(self, base64, bytes, date_time, date, dict, bool, float, int, str, date_time_array, date_array, dict_array, bool_array, float_array, int_array, str_array):
+        """Kitchen Sink: Any value"""
+        return "done"
+
     @command()
     def any_default(self, value):
         """Any is the default type for any undeclared variables"""
