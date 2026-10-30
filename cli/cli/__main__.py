@@ -36,7 +36,7 @@ class CLIClient(object):
         type="String",
         description="Session Label for running subprocess to be shutdown",
         optional=False,
-        choices={"type": "command", "value": "get_subprocess_list"},
+        choices={"type": "command", "value": "get_subprocess_list", "display": "select"},
     )
     def stop_subprocess(self, subprocess_label: str):
         if subprocess_label in self.subprocess_list:
@@ -66,7 +66,7 @@ class CLIClient(object):
         type="String",
         description="Session Label for running subprocess command",
         optional=False,
-        choices={"type": "command", "value": "get_subprocess_list"},
+        choices={"type": "command", "value": "get_subprocess_list", "display": "select"},
     )
     @parameter(
         key="cmd",
