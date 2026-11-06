@@ -1,11 +1,13 @@
-from brewtils import command, parameter, Plugin, shutdown
 import logging
-import time
-import subprocess
 import os
+import subprocess
+import time
+
+from brewtils import Plugin, command, parameter, shutdown
 
 __version__ = "3.0.0.dev0"
 logger = logging.getLogger(__name__)
+
 
 class CLIClient(object):
     """A plugin that executes OS commands against a sub process terminal"""
@@ -13,20 +15,20 @@ class CLIClient(object):
     subprocess_list = {}
 
     @parameter(
-            key="subprocess_label",
-            type="String",
-            description="Session Label for running subprocess to be created",
-        )
-    def start_subprocess(self, subprocess_label:str):
+        key="subprocess_label",
+        type="String",
+        description="Session Label for running subprocess to be created",
+    )
+    def start_subprocess(self, subprocess_label: str):
         if subprocess_label in self.subprocess_list:
             raise Exception(f"Sub process already exists by label: {subprocess_label}")
 
         self.subprocess_list[subprocess_label] = subprocess.Popen(
-            ['/bin/bash'],  # Use 'cmd.exe' on Windows
+            ["/bin/bash"],  # Use 'cmd.exe' on Windows
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            text=True
+            text=True,
         )
 
         return f"{subprocess_label} subprocess created"
@@ -38,14 +40,16 @@ class CLIClient(object):
         optional=False,
         choices={"type": "command", "value": "get_subprocess_list"},
     )
-    def stop_subprocess(self, subprocess_label:str):
+    def stop_subprocess(self, subprocess_label: str):
         if subprocess_label in self.subprocess_list:
             self.subprocess_list[subprocess_label].stdin.close()
             self.subprocess_list[subprocess_label].terminate()
             del self.subprocess_list[subprocess_label]
             return f"{subprocess_label} subprocess deleted"
         else:
-            raise Exception(f"Unable to find targeted sub process by label {subprocess_label}")
+            raise Exception(
+                f"Unable to find targeted sub process by label {subprocess_label}"
+            )
 
     @shutdown
     @command
@@ -60,17 +64,17 @@ class CLIClient(object):
         return list(self.subprocess_list.keys())
 
     @parameter(
-            key="subprocess_label",
-            type="String",
-            description="Session Label for running subprocess command",
-            optional=False,
-            choices={"type": "command", "value": "get_subprocess_list"},
-        )
+        key="subprocess_label",
+        type="String",
+        description="Session Label for running subprocess command",
+        optional=False,
+        choices={"type": "command", "value": "get_subprocess_list"},
+    )
     @parameter(
-            key="cmd",
-            type="String",
-            description="The targeted command to execute within the subprocess",
-        )
+        key="cmd",
+        type="String",
+        description="The targeted command to execute within the subprocess",
+    )
     def run_command(self, subprocess_label: str, cmd: str):
 
         # Send the command followed by a newline character
@@ -78,34 +82,37 @@ class CLIClient(object):
         if subprocess_label in self.subprocess_list:
             proc = self.subprocess_list[subprocess_label]
         else:
-            raise Exception(f"Unable to find targeted sub process by label {subprocess_label}")
+            raise Exception(
+                f"Unable to find targeted sub process by label {subprocess_label}"
+            )
 
         os.set_blocking(proc.stdout.fileno(), False)
 
-        proc.stdin.write(cmd + '\n')
+        proc.stdin.write(cmd + "\n")
         proc.stdin.flush()
-        
+
         # Simple delimiter trick to know when command output ends
         delimiter = "---CMD_DONE---"
         proc.stdin.write(f"echo {delimiter}\n")
         proc.stdin.flush()
-        
+
         # Read the stream lines until the delimiter is encountered
         output = []
 
         start_time = time.time()
         while True:
             if time.time() - start_time > 5:
-                output.append("...\n")        
+                output.append("...\n")
                 output.append("Timed Out, Closed Session")
                 self.stop_subprocess(subprocess_label)
-                break             
+                break
             line = proc.stdout.readline()
             if line and delimiter in line:
                 break
             output.append(line)
-            
+
         return "".join(output).strip()
+
 
 def main():
 
